@@ -23,7 +23,12 @@
     CGSize imageSize = CGSizeNull;
     NSString *imageType = [YImageSizeUtility imageTypeWithimageData:firstByteByimageData];
     if ([imageType isEqualToString:@"image/jpeg"]) {
-        imageSize = [YImageSizeUtility sizeWithJpgFilePath:imageFilePath];
+        [fileHandler seekToFileOffset:0];
+        NSData *imageData = [fileHandler readDataOfLength:210];
+        imageSize = [YImageSizeUtility jpgImageSizeWithHeaderData:imageData];
+        if (CGSizeEqualToSize(CGSizeNull,imageSize)) {
+            imageSize = [YImageSizeUtility sizeWithJpgFilePath:imageFilePath];
+        }
     } else  if([imageType isEqualToString:@"image/png"]) {
         [fileHandler seekToFileOffset:16];
         NSData *imageData = [fileHandler readDataOfLength:8];
@@ -34,7 +39,7 @@
         imageSize = [YImageSizeUtility sizeWithGifData:imageData];
     } else if([imageType isEqualToString:@"image/bmp"]) {
         [fileHandler seekToFileOffset:18];
-        NSData *imageData = [fileHandler readDataOfLength:8];
+        NSData *imageData = [fileHandler readDataOfLeadsngth:8];
         imageSize = [YImageSizeUtility sizeWithBmpData:imageData];
     }
     [fileHandler closeFile];
@@ -96,6 +101,59 @@
     return CGSizeMake(w, h);
 }
 
+// 第一种方式 最快速
++ (CGSize)sizeWithJpgData:(NSData *)data
+{
+    if ([data length] <= 0x58) {
+        return CGSizeNull;
+    }
+    
+    if ([data length] < 210) {// 肯定只有一个DQT字段
+        short w1 = 0, w2 = 0;
+        [data getBytes:&w1 range:NSMakeRange(0x60, 0x1)];
+        [data getBytes:&w2 range:NSMakeRange(0x61, 0x1)];
+        short w = (w1 << 8) + w2;
+        short h1 = 0, h2 = 0;
+        
+        [data getBytes:&h1 range:NSMakeRange(0x5e, 0x1)];
+        [data getBytes:&h2 range:NSMakeRange(0x5f, 0x1)];
+        short h = (h1 << 8) + h2;
+        return CGSizeMake(w, h);
+    } else {
+        short word = 0x0;
+        [data getBytes:&word range:NSMakeRange(0x15, 0x1)];
+        if (word == 0xdb) {
+            [data getBytes:&word range:NSMakeRange(0x5a, 0x1)];
+            if (word == 0xdb) {// 两个DQT字段
+                short w1 = 0, w2 = 0;
+                [data getBytes:&w1 range:NSMakeRange(0xa5, 0x1)];
+                [data getBytes:&w2 range:NSMakeRange(0xa6, 0x1)];
+                short w = (w1 << 8) + w2;
+                
+                short h1 = 0, h2 = 0;
+                [data getBytes:&h1 range:NSMakeRange(0xa3, 0x1)];
+                [data getBytes:&h2 range:NSMakeRange(0xa4, 0x1)];
+                short h = (h1 << 8) + h2;
+                return CGSizeMake(w, h);
+            } else {// 一个DQT字段
+                short w1 = 0, w2 = 0;
+                [data getBytes:&w1 range:NSMakeRange(0x60, 0x1)];
+                [data getBytes:&w2 range:NSMakeRange(0x61, 0x1)];
+                short w = (w1 << 8) + w2;
+                short h1 = 0, h2 = 0;
+                
+                [data getBytes:&h1 range:NSMakeRange(0x5e, 0x1)];
+                [data getBytes:&h2 range:NSMakeRange(0x5f, 0x1)];
+                short h = (h1 << 8) + h2;
+                return CGSizeMake(w, h);
+            }
+        } else {
+            return CGSizeNull;
+        }
+    }
+}
+
+//第二种方式 遍历文件，至少比new出UIImage还是效率高的
 + (CGSize)sizeWithJpgFilePath:(NSString *)filePath
 {
     if (!filePath.length) {
@@ -153,6 +211,8 @@
     return CGSizeNull;
     
 }
+
+
 
 
 + (CGSize)sizeWithPngData:(NSData *)imageData

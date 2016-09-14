@@ -27,6 +27,8 @@
 		62979FF51D88E3DE00A92182 /* test.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 62979FF31D88E3DE00A92182 /* test.bmp */; };
 		62979FF91D89008500A92182 /* YImageSizeUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 62979FF81D89008500A92182 /* YImageSizeUtility.m */; };
 		62979FFA1D89008500A92182 /* YImageSizeUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 62979FF81D89008500A92182 /* YImageSizeUtility.m */; };
+		62979FFC1D89180100A92182 /* test2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 62979FFB1D89180100A92182 /* test2.jpg */; };
+		62979FFD1D89180100A92182 /* test2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 62979FFB1D89180100A92182 /* test2.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,7 @@
 		62979FF31D88E3DE00A92182 /* test.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = test.bmp; sourceTree = "<group>"; };
 		62979FF71D89008500A92182 /* YImageSizeUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YImageSizeUtility.h; sourceTree = "<group>"; };
 		62979FF81D89008500A92182 /* YImageSizeUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YImageSizeUtility.m; sourceTree = "<group>"; };
+		62979FFB1D89180100A92182 /* test2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test2.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +167,7 @@
 		62979FDE1D88310400A92182 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				62979FFB1D89180100A92182 /* test2.jpg */,
 				62979FF31D88E3DE00A92182 /* test.bmp */,
 				62979FF01D88E34D00A92182 /* test.webp */,
 				62979FED1D883D9B00A92182 /* test.png */,
@@ -293,6 +297,7 @@
 				62979FF41D88E3DE00A92182 /* test.bmp in Resources */,
 				62979FEB1D883D7400A92182 /* test.gif in Resources */,
 				62979FE01D88310E00A92182 /* test.jpg in Resources */,
+				62979FFC1D89180100A92182 /* test2.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +307,7 @@
 			files = (
 				62979FE11D88310E00A92182 /* test.jpg in Resources */,
 				62979FF21D88E34D00A92182 /* test.webp in Resources */,
+				62979FFD1D89180100A92182 /* test2.jpg in Resources */,
 				62979FEC1D883D7400A92182 /* test.gif in Resources */,
 				62979FF51D88E3DE00A92182 /* test.bmp in Resources */,
 				62979FEF1D883D9B00A92182 /* test.png in Resources */,
