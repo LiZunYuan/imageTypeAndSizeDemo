@@ -25,7 +25,7 @@
     if ([imageType isEqualToString:@"image/jpeg"]) {
         [fileHandler seekToFileOffset:0];
         NSData *imageData = [fileHandler readDataOfLength:210];
-        imageSize = [YImageSizeUtility jpgImageSizeWithHeaderData:imageData];
+        imageSize = [YImageSizeUtility sizeWithJpgData:imageData];
         if (CGSizeEqualToSize(CGSizeNull,imageSize)) {
             imageSize = [YImageSizeUtility sizeWithJpgFilePath:imageFilePath];
         }
@@ -39,7 +39,7 @@
         imageSize = [YImageSizeUtility sizeWithGifData:imageData];
     } else if([imageType isEqualToString:@"image/bmp"]) {
         [fileHandler seekToFileOffset:18];
-        NSData *imageData = [fileHandler readDataOfLeadsngth:8];
+        NSData *imageData = [fileHandler readDataOfLength:8];
         imageSize = [YImageSizeUtility sizeWithBmpData:imageData];
     }
     [fileHandler closeFile];
